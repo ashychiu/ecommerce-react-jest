@@ -20,4 +20,15 @@ describe("summary form checkbox and submit button", () => {
     expect(consentCheckbox).toBeChecked();
     expect(submitButton).toBeEnabled();
   });
+  it("should disable the submit button when the checkbox is clicked the second time", () => {
+    render(<SummaryForm />);
+    const consentCheckbox = screen.getByRole("checkbox");
+    const submitButton = screen.getByRole("button");
+    fireEvent.click(consentCheckbox);
+    expect(consentCheckbox).toBeChecked();
+    expect(submitButton).toBeEnabled();
+    fireEvent.click(consentCheckbox);
+    expect(consentCheckbox).not.toBeChecked();
+    expect(submitButton).toBeDisabled();
+  });
 });
