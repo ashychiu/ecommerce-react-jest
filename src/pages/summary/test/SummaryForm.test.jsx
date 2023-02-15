@@ -1,5 +1,6 @@
 import SummaryForm from "../SummaryForm";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 describe("summary form checkbox and submit button", () => {
   it("should have a checkbox unchecked initially", () => {
@@ -12,22 +13,26 @@ describe("summary form checkbox and submit button", () => {
     const submitButton = screen.getByRole("button");
     expect(submitButton).toBeDisabled();
   });
-  it("should enable the submit button when the checkbox is clicked", () => {
+  it("should enable the submit button when the checkbox is clicked", async () => {
+    const user = userEvent.setup();
+
     render(<SummaryForm />);
     const consentCheckbox = screen.getByRole("checkbox");
     const submitButton = screen.getByRole("button");
-    fireEvent.click(consentCheckbox);
+    await user.click(consentCheckbox);
     expect(consentCheckbox).toBeChecked();
     expect(submitButton).toBeEnabled();
   });
-  it("should disable the submit button when the checkbox is clicked the second time", () => {
+  it("should disable the submit button when the checkbox is clicked the second time", async () => {
+    const user = userEvent.setup();
+
     render(<SummaryForm />);
     const consentCheckbox = screen.getByRole("checkbox");
     const submitButton = screen.getByRole("button");
-    fireEvent.click(consentCheckbox);
+    await user.click(consentCheckbox);
     expect(consentCheckbox).toBeChecked();
     expect(submitButton).toBeEnabled();
-    fireEvent.click(consentCheckbox);
+    await user.click(consentCheckbox);
     expect(consentCheckbox).not.toBeChecked();
     expect(submitButton).toBeDisabled();
   });
