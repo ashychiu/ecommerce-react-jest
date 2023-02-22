@@ -1,5 +1,10 @@
 import SummaryForm from "../SummaryForm";
-import { render, screen } from "@testing-library/react";
+import {
+  queryAllByAltText,
+  queryByText,
+  render,
+  screen,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 describe("summary form checkbox and submit button", () => {
@@ -38,8 +43,23 @@ describe("summary form checkbox and submit button", () => {
   });
 });
 
-describe("popover", () => {
-  it("does not show popover initially", () => { });
-  it("shows popover when mouse over on label", () => { });
-  it("does not show popover when mouse out", () => { });
-});  
+describe("popover respond to mouse hover", () => {
+  const user = userEvent.setup();
+
+  it("does not show popover initially", () => {
+    render(<SummaryForm />);
+    const nullPopover = screen.queryByText(
+      /no order will actually be delivered/i
+    );
+    expect(nullPopover).not.toBeInTheDocument();
+  });
+  it("shows popover when mouse over on label", async () => {
+    const termsAndConditions = screen.getByText(/terms and conditions/i);
+    await user.hover(termsAndConditions);
+    const popover = screen.getByText(/no order will actually be delivered/i);
+    expect(popover).toBeInTheDocument();
+    // does not show popover when mouse out
+    await user.unhover(termsAndConditions);
+    expect(popover).not.toBeInTheDocument();
+  });
+});
