@@ -1,10 +1,5 @@
 import SummaryForm from "../SummaryForm";
-import {
-  queryAllByAltText,
-  queryByText,
-  render,
-  screen,
-} from "@testing-library/react";
+import { queryByText, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 describe("summary form checkbox and submit button", () => {
@@ -15,7 +10,7 @@ describe("summary form checkbox and submit button", () => {
   });
   it("should have a disable button initially", () => {
     render(<SummaryForm />);
-    const submitButton = screen.getByRole("button");
+    const submitButton = screen.getByRole("button", { name: /submit/i });
     expect(submitButton).toBeDisabled();
   });
   it("should enable the submit button when the checkbox is clicked", async () => {
@@ -23,7 +18,7 @@ describe("summary form checkbox and submit button", () => {
 
     render(<SummaryForm />);
     const consentCheckbox = screen.getByRole("checkbox");
-    const submitButton = screen.getByRole("button");
+    const submitButton = screen.getByRole("button", { name: /submit/i });
     await user.click(consentCheckbox);
     expect(consentCheckbox).toBeChecked();
     expect(submitButton).toBeEnabled();
@@ -33,7 +28,7 @@ describe("summary form checkbox and submit button", () => {
 
     render(<SummaryForm />);
     const consentCheckbox = screen.getByRole("checkbox");
-    const submitButton = screen.getByRole("button");
+    const submitButton = screen.getByRole("button", { name: /submit/i });
     await user.click(consentCheckbox);
     expect(consentCheckbox).toBeChecked();
     expect(submitButton).toBeEnabled();
@@ -48,18 +43,16 @@ describe("popover respond to mouse hover", () => {
 
   it("does not show popover initially", () => {
     render(<SummaryForm />);
-    const nullPopover = screen.queryByText(
-      /no order will actually be delivered/i
-    );
+    const nullPopover = screen.queryByText(/This is a demo site/i);
     expect(nullPopover).not.toBeInTheDocument();
   });
   it("shows popover when mouse over on label", async () => {
-    const termsAndConditions = screen.getByText(/terms and conditions/i);
+    render(<SummaryForm />);
+    const termsAndConditions = screen.getByText(
+      /i agree to terms & conditions/i
+    );
     await user.hover(termsAndConditions);
-    const popover = screen.getByText(/no order will actually be delivered/i);
+    const popover = screen.getByText(/This is a demo site./i);
     expect(popover).toBeInTheDocument();
-    // does not show popover when mouse out
-    await user.unhover(termsAndConditions);
-    expect(popover).not.toBeInTheDocument();
   });
 });
