@@ -52,7 +52,10 @@ describe("popover respond to mouse hover", () => {
       /i agree to terms & conditions/i
     );
     await user.hover(termsAndConditions);
-    const popover = screen.getByText(/This is a demo site./i);
+    const popover = screen.getByText(/This is a demo site/i);
     expect(popover).toBeInTheDocument();
+    // does not show popover when mouse out
+    await user.unhover(termsAndConditions);
+    expect(popover).not.toBeInTheDocument();
   });
 });

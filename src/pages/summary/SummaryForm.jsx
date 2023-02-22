@@ -55,18 +55,16 @@ const SummaryForm = () => {
             open={popoverOpen}
             anchorEl={anchorEl}
             onClose={handleClose}
-            // anchorOrigin={{
-            //   vertical: "bottom",
-            //   horizontal: "left",
-            // }}
-            // transformOrigin={{
-            //   vertical: "top",
-            //   horizontal: "left",
-            // }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
           >
-            <Typography sx={{ p: 2 }}>
-              This is a demo site. Orders will NOT be delivered
-            </Typography>
+            <Typography sx={{ p: 2 }}>This is a demo site</Typography>
           </Popover>
         </label>
       </Grid>
