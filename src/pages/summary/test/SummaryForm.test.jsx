@@ -37,3 +37,9 @@ describe("summary form checkbox and submit button", () => {
     expect(submitButton).toBeDisabled();
   });
 });
+
+describe("popover", () => {
+  it("does not show popover initially", () => { });
+  it("shows popover when mouse over on label", () => { });
+  it("does not show popover when mouse out", () => { });
+});  
